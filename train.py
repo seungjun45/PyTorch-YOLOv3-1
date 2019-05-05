@@ -74,7 +74,7 @@ if __name__ == "__main__":
         shuffle=True,
         num_workers=opt.n_cpu,
         pin_memory=True,
-        collate_fn=dataset.collate_fn,
+        collate_fn=dataset.datasets[0].collate_fn,
     )
 
     params=model.parameters()
