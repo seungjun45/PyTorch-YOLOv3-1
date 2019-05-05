@@ -127,16 +127,16 @@ class ListDataset(Dataset):
             targets = torch.zeros((len(boxes), 6))
             targets[:, 1:] = boxes
 
-        # Apply augmentations
-        if self.augment:
-            if np.random.random() < 0.5:
-                # try:
-                img, targets = horisontal_flip(img, targets)
-                # except:
-                #     print('==============')
-                #     print(label_path)
-                #     print('==============')
-                #     pdb.set_trace()
+            # Apply augmentations
+            if self.augment:
+                if np.random.random() < 0.5:
+                    # try:
+                    img, targets = horisontal_flip(img, targets)
+                    # except:
+                    #     print('==============')
+                    #     print(label_path)
+                    #     print('==============')
+                    #     pdb.set_trace()
         return img_path, img, targets
 
     def collate_fn(self, batch):
