@@ -6,6 +6,7 @@ from utils.utils import *
 from utils.datasets import *
 from utils.parse_config import *
 from test import evaluate
+from torch.utils.data import ConcatDataset
 
 from terminaltables import AsciiTable
 
@@ -64,7 +65,9 @@ if __name__ == "__main__":
             model.load_darknet_weights(opt.pretrained_weights)
 
     # Get dataloader
-    dataset = ListDataset(train_path, augment=True, multiscale=opt.multiscale_training)
+    dataset_train = ListDataset(train_path, augment=True, multiscale=opt.multiscale_training)
+    dataset_val = ListDataset(valid_path, augment=True, multiscale=opt.multiscale_training)
+    dataset=ConcatDataset([dataset_train, dataset_val])
     dataloader = torch.utils.data.DataLoader(
         dataset,
         batch_size=opt.batch_size,
@@ -74,7 +77,8 @@ if __name__ == "__main__":
         collate_fn=dataset.collate_fn,
     )
 
-    optimizer = torch.optim.Adam(model.parameters())
+    params=model.parameters()
+    optimizer = torch.optim.Adam(params)
 
     metrics = [
         "grid_size",
@@ -92,7 +96,8 @@ if __name__ == "__main__":
         "conf_obj",
         "conf_noobj",
     ]
-
+    optimizer.zero_grad()
+    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.99)
     for epoch in range(opt.epochs):
         model.train()
         start_time = time.time()
@@ -107,8 +112,13 @@ if __name__ == "__main__":
 
             if batches_done % opt.gradient_accumulations:
                 # Accumulates gradient before each step
+                torch.nn.utils.clip_grad_norm_(params, 0.25)
+
                 optimizer.step()
                 optimizer.zero_grad()
+
+                if(epoch > 40):
+                    scheduler.step()
 
             # ----------------
             #   Log progress
