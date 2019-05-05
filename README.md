@@ -1,3 +1,12 @@
+
+Modified Version of : https://github.com/eriklindernoren/PyTorch-YOLOv3 
++ Coco Api in Windows Settings
++ variable path to COCO image datasets
++ Bottomup Feature Extractor using Yolo v3 (on Working)
++ pre-training on Visual Genome (on Working)
+
+Things should be available within a week (~May 11th, 2019)
+
 # PyTorch-YOLOv3
 A minimal PyTorch implementation of YOLOv3, with support for training, inference and evaluation.
 
@@ -138,8 +147,8 @@ _Joseph Redmon, Ali Farhadi_ <br>
 **Abstract** <br>
 We present some updates to YOLO! We made a bunch
 of little design changes to make it better. We also trained
-this new network thatâ€™s pretty swell. Itâ€™s a little bigger than
-last time but more accurate. Itâ€™s still fast though, donâ€™t
+this new network that?™s pretty swell. It?™s a little bigger than
+last time but more accurate. It?™s still fast though, don?™t
 worry. At 320 Ã— 320 YOLOv3 runs in 22 ms at 28.2 mAP,
 as accurate as SSD but three times faster. When we look
 at the old .5 IOU mAP detection metric YOLOv3 is quite

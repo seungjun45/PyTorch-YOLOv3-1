@@ -6,10 +6,14 @@ import numpy as np
 from PIL import Image
 import torch
 import torch.nn.functional as F
+from address_prefix import *
 
 from utils.augmentations import horisontal_flip
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
+import pdb
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 def pad_to_square(img, pad_value):
@@ -44,7 +48,7 @@ class ImageFolder(Dataset):
     def __getitem__(self, index):
         img_path = self.files[index % len(self.files)]
         # Extract image as PyTorch tensor
-        img = transforms.ToTensor()(Image.open(img_path))
+        img = transforms.ToTensor()(Image.open(img_path).convert('RGB'))
         # Pad to square resolution
         img, _ = pad_to_square(img, 0)
         # Resize
@@ -61,10 +65,9 @@ class ListDataset(Dataset):
         with open(list_path, "r") as file:
             self.img_files = file.readlines()
 
-        self.label_files = [
-            path.replace("images", "labels").replace(".png", ".txt").replace(".jpg", ".txt")
-            for path in self.img_files
-        ]
+        self.label_files = [addr_label_prefix+path.replace("images", "labels").replace(".png", ".txt").replace(".jpg", ".txt")
+            for path in self.img_files]
+        self.img_files = [addr_prefix + path for path in self.img_files]
         self.img_size = img_size
         self.max_objects = 100
         self.augment = augment
@@ -83,7 +86,7 @@ class ListDataset(Dataset):
         img_path = self.img_files[index % len(self.img_files)].rstrip()
 
         # Extract image as PyTorch tensor
-        img = transforms.ToTensor()(Image.open(img_path))
+        img = transforms.ToTensor()(Image.open(img_path).convert('RGB'))
 
         # Handle images with less than three channels
         if len(img.shape) != 3:
@@ -128,7 +131,6 @@ class ListDataset(Dataset):
         if self.augment:
             if np.random.random() < 0.5:
                 img, targets = horisontal_flip(img, targets)
-
         return img_path, img, targets
 
     def collate_fn(self, batch):
@@ -143,7 +145,13 @@ class ListDataset(Dataset):
         if self.multiscale and self.batch_count % 10 == 0:
             self.img_size = random.choice(range(self.min_size, self.max_size + 1, 32))
         # Resize images to input shape
-        imgs = torch.stack([resize(img, self.img_size) for img in imgs])
+
+        # Considering Gray-Scale Images... I changed codes a little bit
+        tmp_list=[]
+        for img in imgs:
+            img=resize(img, self.img_size)
+            tmp_list.append(img)
+        imgs=torch.stack(tmp_list)
         self.batch_count += 1
         return paths, imgs, targets
 
