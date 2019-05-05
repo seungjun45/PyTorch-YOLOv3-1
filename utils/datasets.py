@@ -130,13 +130,29 @@ class ListDataset(Dataset):
         # Apply augmentations
         if self.augment:
             if np.random.random() < 0.5:
+                # try:
                 img, targets = horisontal_flip(img, targets)
+                # except:
+                #     print('==============')
+                #     print(label_path)
+                #     print('==============')
+                #     pdb.set_trace()
         return img_path, img, targets
 
     def collate_fn(self, batch):
         paths, imgs, targets = list(zip(*batch))
         # Remove empty placeholder targets
-        targets = [boxes for boxes in targets if boxes is not None]
+        new_targets=[]
+        new_imgs=[]
+        new_paths=[]
+        for (path,img,boxes) in zip(paths,imgs,targets):
+            if boxes is not None:
+                new_targets.append(boxes)
+                new_imgs.append(img)
+                new_paths.append(path)
+        imgs=new_imgs
+        paths=new_paths
+        targets=new_targets
         # Add sample index to targets
         for i, boxes in enumerate(targets):
             boxes[:, 0] = i

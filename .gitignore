@@ -13,3 +13,4 @@ checkpoints
 weights/darknet53.conv.74
 .idea/
 data/images/
+logs/
