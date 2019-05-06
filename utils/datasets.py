@@ -60,6 +60,7 @@ class ImageFolder(Dataset):
         return len(self.files)
 
 
+
 class ListDataset(Dataset):
     def __init__(self, list_path, img_size=416, augment=True, multiscale=True, normalized_labels=True):
         with open(list_path, "r") as file:

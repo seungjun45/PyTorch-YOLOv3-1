@@ -27,7 +27,7 @@ if __name__ == "__main__":
     parser.add_argument("--model_def", type=str, default="config/yolov3.cfg", help="path to model definition file")
     parser.add_argument("--weights_path", type=str, default="weights/yolov3.weights", help="path to weights file")
     parser.add_argument("--class_path", type=str, default="data/coco.names", help="path to class label file")
-    parser.add_argument("--conf_thres", type=float, default=0.8, help="object confidence threshold")
+    parser.add_argument("--conf_thres", type=float, default=0.5, help="object confidence threshold")
     parser.add_argument("--nms_thres", type=float, default=0.4, help="iou thresshold for non-maximum suppression")
     parser.add_argument("--batch_size", type=int, default=1, help="size of the batches")
     parser.add_argument("--n_cpu", type=int, default=0, help="number of cpu threads to use during batch generation")
@@ -78,6 +78,7 @@ if __name__ == "__main__":
             detections = non_max_suppression(detections, opt.conf_thres, opt.nms_thres)
 
         # Log progress
+        # (x1, y1, x2, y2, object_conf, class_score, class_pred)
         current_time = time.time()
         inference_time = datetime.timedelta(seconds=current_time - prev_time)
         prev_time = current_time
@@ -86,8 +87,8 @@ if __name__ == "__main__":
         # Save image and detections
         imgs.extend(img_paths)
         img_detections.extend(detections)
-
     # Bounding-box colors
+    pdb.set_trace()
     cmap = plt.get_cmap("tab20b")
     colors = [cmap(i) for i in np.linspace(0, 1, 20)]
 
