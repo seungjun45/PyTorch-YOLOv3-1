@@ -8,24 +8,18 @@ import os
 import sys
 import time
 import datetime
-import argparse
 
 from PIL import Image
 
 import torch
-from torch.utils.data import DataLoader
-from torchvision import datasets
 from torch.autograd import Variable
 
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-from matplotlib.ticker import NullLocator
 
 # function that gets the img_path, and outputs the Yolov3 logits
 
 
 def Yolov3(img_paths, model_def="config/yolov3.cfg", img_size = 416, weights_path="weights/yolov3.weights",
-           class_path = "data/coco.names", debug=False, conf_thres=0.5, nms_thres=0.4):
+           class_path = "data/coco.names", debug=False, conf_thres=0.5, nms_thres=0.4, addr_to_Yolov3=''):
     """
 
     :param img_paths: "path to image dataset"
@@ -38,7 +32,9 @@ def Yolov3(img_paths, model_def="config/yolov3.cfg", img_size = 416, weights_pat
     :param nms_thres: "iou thresshold for non-maximum suppression"
     :return:
     """
-    
+    model_def = addr_to_Yolov3+model_def
+    weights_path = addr_to_Yolov3 + weights_path
+    class_path = addr_to_Yolov3 + class_path
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
