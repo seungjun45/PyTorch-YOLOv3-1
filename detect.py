@@ -75,7 +75,6 @@ if __name__ == "__main__":
         # Get detections
         with torch.no_grad():
             detections = model(input_imgs)
-            pdb.set_trace()
             detections = non_max_suppression(detections, opt.conf_thres, opt.nms_thres)
 
         # Log progress
@@ -89,7 +88,6 @@ if __name__ == "__main__":
         imgs.extend(img_paths)
         img_detections.extend(detections)
     # Bounding-box colors
-    pdb.set_trace()
     cmap = plt.get_cmap("tab20b")
     colors = [cmap(i) for i in np.linspace(0, 1, 20)]
 
