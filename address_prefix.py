@@ -1,13 +1,16 @@
 import platform
 import argparse
 
-COCO_IMG_PATH="D:\\Data_Share\Datas\VQA_COCO"
-YOLO_LABEL_PATH="D:\\Data_Share\Datas\VQA_COCO"
+
 
 if(platform.system() == 'Linux'):
-    addr_prefix="../../"+COCO_IMG_PATH[3:]
-    addr_label_prefix="../../"+YOLO_LABEL_PATH[3:]
+    COCO_IMG_PATH = "Data_Share/Datas/VQA_COCO"
+    YOLO_LABEL_PATH = "Data_Share/Datas/VQA_COCO"
+    addr_prefix="../../"+COCO_IMG_PATH
+    addr_label_prefix="../../"+YOLO_LABEL_PATH
 elif (platform.system() == 'Windows'):
+    COCO_IMG_PATH = "D:\\Data_Share\Datas\VQA_COCO"
+    YOLO_LABEL_PATH = "D:\\Data_Share\Datas\VQA_COCO"
     addr_prefix=COCO_IMG_PATH
     addr_label_prefix=YOLO_LABEL_PATH
 
