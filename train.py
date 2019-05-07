@@ -158,6 +158,7 @@ if __name__ == "__main__":
                 log_str += f"\n---- ETA {time_left}"
 
                 print(log_str)
+                sys.stdout.flush()
 
             model.seen += imgs.size(0)
 
