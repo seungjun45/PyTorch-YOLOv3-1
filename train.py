@@ -38,6 +38,7 @@ if __name__ == "__main__":
     parser.add_argument("--evaluation_interval", type=int, default=1, help="interval evaluations on validation set")
     parser.add_argument("--compute_map", default=False, help="if True computes mAP every tenth batch")
     parser.add_argument("--multiscale_training", default=True, help="allow for multi-scale training")
+    parser.add_argument("--start_epoch", type=int, default=0, help="allow for multi-scale training")
     opt = parser.parse_args()
     print(opt)
 
@@ -100,7 +101,7 @@ if __name__ == "__main__":
     optimizer.zero_grad()
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.99)
     i_step=0
-    for epoch in range(opt.epochs):
+    for epoch in range(opt.start_epoch, opt.epochs):
         model.train()
         start_time = time.time()
         for batch_i, (_, imgs, targets) in enumerate(dataloader):

@@ -114,7 +114,7 @@ def Yolov3(img_paths, model_def="config/yolov3.cfg", img_size = 416, weights_pat
                 
                 if(debug):
                     print("\t+ Label: %s, Conf: %.5f" % (classes[int(cls_pred)], cls_conf.item()))
-                result_in_an_image.append([x1.item(),y2.item(),x2.item(),y2,conf.item(),cls_conf.item(),classes[int(cls_pred)]])
+                result_in_an_image.append([x1.item(),y2.item(),x2.item(),y2.item(), conf.item(),cls_conf.item(),classes[int(cls_pred)]])
 
             results.append(result_in_an_image)
 
