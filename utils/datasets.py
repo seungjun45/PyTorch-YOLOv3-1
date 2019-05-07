@@ -70,7 +70,7 @@ class ListDataset(Dataset):
 
         self.label_files = [addr_label_prefix+path.replace("images", "labels").replace(".png", ".txt").replace(".jpg", ".txt")
             for path in self.img_files]
-        self.img_files = [addr_prefix + path for path in self.img_files]
+        self.img_files = [addr_prefix + path.replace("images","Images") for path in self.img_files]
         self.img_size = img_size
         self.max_objects = 100
         self.augment = augment
