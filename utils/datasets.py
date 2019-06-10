@@ -7,6 +7,7 @@ from PIL import Image
 import torch
 import torch.nn.functional as F
 from address_prefix import *
+import _pickle as cPickle
 
 from utils.augmentations import horisontal_flip
 from torch.utils.data import Dataset
@@ -187,10 +188,8 @@ class GTADataSet(Dataset):
         self.img_path_root=root_path+'images/'
         self.img_files=json_['images']
         self.anno=json_['annotations']
+        self.img2anno=cPickle.load('img2anno.pkl','rb')
         pdb.set_trace()
-        self.label_files = [addr_label_prefix+path.replace("images", "labels").replace(".png", ".txt").replace(".jpg", ".txt")
-            for path in self.img_files]
-        self.img_files = [addr_prefix + path for path in self.img_files]
         self.img_size = img_size
         self.max_objects = 100
         self.augment = augment
