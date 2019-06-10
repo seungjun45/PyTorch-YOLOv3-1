@@ -235,16 +235,16 @@ class GTADataSet(Dataset):
                 width=anno['width']
                 height=anno['height']
                 tmp_box=[tmp_box[0]/width, tmp_box[1]/height, tmp_box[2]/width, tmp_box[3]/height]
-                tmp_box.insert(0,anno['category_id'])
+                tmp_box.insert(0,anno['category_id']-1)
                 boxes.append(torch.Tensor(tmp_box))
 
             #boxes = torch.from_numpy(np.loadtxt(label_path).reshape(-1, 5))
             boxes=torch.stack(boxes)
             # Extract coordinates for unpadded + unscaled image
-            x1 = w_factor * (boxes[:, 1] - boxes[:, 3] / 2)
-            y1 = h_factor * (boxes[:, 2] - boxes[:, 4] / 2)
-            x2 = w_factor * (boxes[:, 1] + boxes[:, 3] / 2)
-            y2 = h_factor * (boxes[:, 2] + boxes[:, 4] / 2)
+            x1 = w_factor * (boxes[:, 1])
+            y1 = h_factor * (boxes[:, 2])
+            x2 = w_factor * (boxes[:, 1] + boxes[:, 3])
+            y2 = h_factor * (boxes[:, 2] + boxes[:, 4])
             # Adjust for added padding
             x1 += pad[0]
             y1 += pad[2]
