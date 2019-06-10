@@ -179,8 +179,14 @@ class ListDataset(Dataset):
         return len(self.img_files)
 
 class GTADataSet(Dataset):
-    def __init__(self, json_path, img_size=416, augment=True, multiscale=True, normalized_labels=True):
+    def __init__(self, root_path, img_size=416, augment=True, multiscale=True, normalized_labels=True):
+        self.root_path = root_path
+        json_path=root_path+'instances_GTA_train_small_2.json'
         json_=json.load(open(json_path))
+
+        self.img_path_root=root_path+'images/'
+        self.img_files=json_['images']
+        self.anno=json_['annotations']
         pdb.set_trace()
         self.label_files = [addr_label_prefix+path.replace("images", "labels").replace(".png", ".txt").replace(".jpg", ".txt")
             for path in self.img_files]
@@ -200,7 +206,7 @@ class GTADataSet(Dataset):
         #  Image
         # ---------
 
-        img_path = self.img_files[index % len(self.img_files)].rstrip()
+        img_path = self.root_path+self.img_files[index]['file_name']
 
         # Extract image as PyTorch tensor
         img = transforms.ToTensor()(Image.open(img_path).convert('RGB'))

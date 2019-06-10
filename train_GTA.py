@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     # Get data configuration
     data_config = parse_data_config(opt.data_config)
-    train_path = '/mnt/server6_hard2/junyoung/PJT/GTA5/'
+    train_root_path = '/mnt/server6_hard2/junyoung/PJT/GTA5/'
     class_names = load_classes(data_config["names"])
 
     # Initiate model
@@ -66,7 +66,7 @@ if __name__ == "__main__":
             model.load_darknet_weights(opt.pretrained_weights)
 
     # Get dataloader
-    dataset_train = GTADataSet(train_path, augment=True, multiscale=opt.multiscale_training)
+    dataset_train = GTADataSet(train_root_path, augment=True, multiscale=opt.multiscale_training)
     #dataset_val = GTADataSet(valid_path, augment=True, multiscale=opt.multiscale_training)
     #dataset=ConcatDataset([dataset_train, dataset_val])
     dataset=dataset_train
