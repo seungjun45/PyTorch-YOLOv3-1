@@ -14,7 +14,6 @@ imgid_2_annoid={}
 for anno in json_['annotations']:
     if(not(anno['image_id'] in imgid_2_annoid)):
         imgid_2_annoid[anno['image_id']]=[]
-    pdb.set_trace()
     imgid_2_annoid[anno['image_id']].append(anno['id'])
 
 pickle.dump(imgid_2_annoid, open(img2anno_file, 'wb'))
