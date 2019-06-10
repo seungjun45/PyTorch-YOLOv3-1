@@ -204,7 +204,7 @@ class GTADataSet(Dataset):
         #  Image
         # ---------
 
-        img_path = self.root_path+self.img_files[index]['file_name']
+        img_path = self.root_path+'images/'+self.img_files[index]['file_name']
 
         # Extract image as PyTorch tensor
         img = transforms.ToTensor()(Image.open(img_path).convert('RGB'))
