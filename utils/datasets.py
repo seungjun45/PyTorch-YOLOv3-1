@@ -188,7 +188,7 @@ class GTADataSet(Dataset):
         self.img_path_root=root_path+'images/'
         self.img_files=json_['images']
         self.anno=json_['annotations']
-        self.img2anno=cPickle.load('img2anno.pkl','rb')
+        self.img2anno=cPickle.load(open('img2anno.pkl','rb'))
         pdb.set_trace()
         self.img_size = img_size
         self.max_objects = 100
