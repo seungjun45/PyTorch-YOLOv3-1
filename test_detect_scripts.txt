@@ -1,2 +1,4 @@
 python test.py --weights_path checkpoints/yolov3_ckpt_7.pth
-python detect.py --weights_path checkpoints/yolov3_ckpt_7.pth --image_folder data/samples/
+python detect.py --weights_path checkpoints/yolov3_ckpt_19.pth --image_folder data/samples/
+
+python detect.py --weights_path weights/yolov3.weights --image_folder data/samples/
