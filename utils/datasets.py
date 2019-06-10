@@ -224,8 +224,6 @@ class GTADataSet(Dataset):
         #  Label
         # ---------
 
-        label_path = self.label_files[index % len(self.img_files)].rstrip()
-
         targets = None
         if self.img_files[index]['id'] in self.img2anno:
             anno_ids=self.img2anno[self.img_files[index]['id']]
