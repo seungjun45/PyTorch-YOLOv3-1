@@ -189,7 +189,6 @@ class GTADataSet(Dataset):
         self.img_files=json_['images']
         self.anno=json_['annotations']
         self.img2anno=cPickle.load(open('img2anno.pkl','rb'))
-        pdb.set_trace()
         self.img_size = img_size
         self.max_objects = 100
         self.augment = augment
@@ -228,8 +227,20 @@ class GTADataSet(Dataset):
         label_path = self.label_files[index % len(self.img_files)].rstrip()
 
         targets = None
-        if os.path.exists(label_path):
-            boxes = torch.from_numpy(np.loadtxt(label_path).reshape(-1, 5))
+        if self.img_files[index]['id'] in self.img2anno:
+            anno_ids=self.img2anno[self.img_files[index]['id']]
+            boxes=[]
+            for anno_id in anno_ids:
+                anno=self.anno[anno_id-1]
+                tmp_box=anno['bbox'].copy()
+                width=anno['width']
+                height=anno['height']
+                tmp_box=[tmp_box[0]/width, tmp_box[1]/height, tmp_box[2]/width, tmp_box[3]/height]
+                tmp_box.insert(0,anno['category_id'])
+                boxes.append(torch.Tensor(tmp_box))
+
+            #boxes = torch.from_numpy(np.loadtxt(label_path).reshape(-1, 5))
+            boxes=torch.stack(boxes)
             # Extract coordinates for unpadded + unscaled image
             x1 = w_factor * (boxes[:, 1] - boxes[:, 3] / 2)
             y1 = h_factor * (boxes[:, 2] - boxes[:, 4] / 2)
