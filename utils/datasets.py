@@ -180,7 +180,7 @@ class ListDataset(Dataset):
         return len(self.img_files)
 
 class GTADataSet(Dataset):
-    def __init__(self, root_path, img_size=416, augment=True, multiscale=True, normalized_labels=True):
+    def __init__(self, root_path, img_size=1024, augment=True, multiscale=True, normalized_labels=True):
         self.root_path = root_path
         json_path=root_path+'instances_GTA_train_small_2.json'
         json_=json.load(open(json_path))
@@ -208,7 +208,7 @@ class GTADataSet(Dataset):
 
         # Extract image as PyTorch tensor
         img = transforms.ToTensor()(Image.open(img_path).convert('RGB'))
-        img=resize(img,(416,416))
+        img=resize(img,(1024,1024))
 
         # Handle images with less than three channels
         if len(img.shape) != 3:
