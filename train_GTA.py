@@ -56,6 +56,7 @@ if __name__ == "__main__":
 
     # Initiate model
     model = Darknet(opt.model_def).to(device)
+    model=nn.DataParallel(model)
     model.apply(weights_init_normal)
 
     # If specified we start from checkpoint
