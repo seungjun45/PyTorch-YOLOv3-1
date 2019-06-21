@@ -208,6 +208,7 @@ class GTADataSet(Dataset):
 
         # Extract image as PyTorch tensor
         img = transforms.ToTensor()(Image.open(img_path).convert('RGB'))
+        #img=F.pad(img, (0,0,Height/2,Height/2), mode='constant',value=0)
         img=resize(img,(1024,1024))
 
         # Handle images with less than three channels
